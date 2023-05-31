@@ -193,107 +193,16 @@ Abstract Abstract Abstract
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction} \label{sec:introduction}
 
-% Intro about dCs, history and what we know so far. Go over how they must be binaries, \citep{Roulston2019}, \citep{Whitehouse2018}. How some are known to be in wide \citep{Dearborn1986} \citep{Harris2018}. How we don't know how much mass is needed but some rough estimates \citep{Miszalski2013}
+\begin{figure}
+\script{download_Chandra_obs.ipynb}
+\centering
+% \epsscale{1.2}
+\plotone{figures/chandra_image.pdf}
+\caption{This is a Chandra image}
+\label{fig:chandra_image}
+\end{figure}
 
-% Then talk about how dCs are an amazing class of objects that will be useful for studying a large array or binary and stellar physics. 
-
-% Then talk finally about what we aim to do here in this paper. Estimate form first principles what the amount of mass might be needed. What dependence is there on metaliciity. Then run MESA models of this accretion, how much is really needed, and what is the true dependence on metalicitiy? What happens to a star when it accretes that much mass? Also, do they spin up? How fast and what time frame? how long might the active periods be? If no X-ray detections what does that tell us about either the time since accretion or the amount of accretion?
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \section{Estimating Accretion Mass} \label{sec:estimating_accretion}
-
-% There have been no definitive discussions or determinations of the amount of accreted mass needed to turn a normal O-rich main-sequence star into a C-rich dwarf carbon star. In \citet{Miszalski2013} they estimate the mass needed based on a given envelope mass in their Equation 1,
-
-% \begin{equation}
-%     \left(\frac{\mathrm{C}}{\mathrm{O}} \right)_\mathrm{f} = \frac{\left(\mathrm{C}/\mathrm{O}\right)_\mathrm{i} + \eta \left(\mathrm{C}/\mathrm{O}\right)_{\mathrm{AGB}}\left(\Delta M_2 / M_{2,e} \right)}{1 + \eta \left(\Delta M_2 / M_{2,e} \right)}
-% \end{equation}
-% where $\left(\mathrm{C}/\mathrm{O}\right)_\mathrm{i}$ and $\left(\mathrm{C}/\mathrm{O}\right)_\mathrm{f}$ are the initial and final carbon-to-oxygen ratio of the dwarf carbon star respectively, $\left(\mathrm{C}/\mathrm{O}\right)_{\mathrm{AGB}}$ is the AGB carbon-to-oxygen ratio, $\eta = \left(O_\mathrm{AGB}/O_\odot\right)$,  and finally $\Delta M_2$ and $M_{2,e}$ are the accreted mass and envelope mass of the main-sequence star. \citet{Miszalski2013} use the equation for the envelope mass from \citet{Hurley2000} as follows
-% \begin{equation}
-% M_{e} =
-%     \begin{cases}
-%         M & \text{if } M < 0.35\,M_\odot\\
-%         0.35 \left(\frac{1.25 - M}{0.9} \right)^2 & \text{if } 0.35\leq M \leq 1.25 M_\odot\\
-%         0 & \text{if } M > 1.25\,M_\odot.
-%     \end{cases}
-% \end{equation}\label{eq:envelope_mass}
-% From this, \citet{Miszalski2013} estimated $\Delta M_2~=~0.03-0.35~M_\odot$ for $M_2~=~1.0-0.4~M_\odot$ assuming $\eta = 1$ (solar metallicity) and $\left(\mathrm{C}/\mathrm{O}\right)_{\mathrm{AGB}} = 1.5 - 3.0$. However, their quoted accreted mass range does not take into account the final $\left(\mathrm{C}/\mathrm{O}\right)$ of the dwarf carbon star, or has it varied the metallicity. This is especially important because it is often quoted that dwarf carbon stars should be easier to create from metal-poor stars \citep{Roulston2021, Roulston2022}
-
-% Here we have performed calculations of the needed accreted mass based on the total elemental abundance for a range of initial masses, metallicities, and final $\left(\mathrm{C}/\mathrm{O}\right)$. \citet{Hinkel2022} provides an excellent reference and guide in the usage and conversions of elemental abundances. First, we used the solar abundance ratios from \citet{Asplund2021} to scale each elemental abundance to  different input metallicities. Before we re-scaled the abundances we adjusted the value of $A(C)$ to be $A(C) = \log_{10}{\left(\mathrm{C}/\mathrm{O}\right)_f} + A(O)$, where $\left(\mathrm{C}/\mathrm{O}\right)_f$ is the desired $\left(\mathrm{C}/\mathrm{O}\right)$ of the main-sequence star. We used [Fe/H] as a proxy for the metallicity, and used the given values of $A(Q)$ from \citet{Asplund2021} to calculate the new values $A^\prime(Q)$ given the input [Fe/H]. This inherently assumes solar abundance ratios throughout. We then converted the new $A^\prime(Q)$ into the mass fraction of each element following Section 6 of \cite{Hinkel2022}. Thus we arrive at the new X, Y, Z mass fractions of a star based on an input [Fe/H].
-
-% For a test star of mass $M^*$, we calculated the envelope mass, $M^*_e$, in the same way as \citet{Miszalski2013} using Equation \ref{eq:envelope_mass}. We then calculated the total mass of element $Q$ in the envelope using $ M^*_Q = X_Q M^*_e$. As we know the atomic mass, $A_Q$ of each element, we calculated the total number of atoms of element $Q$ in the envelope via $N^*_Q = M^*_Q / A_Q$. To find the amount of mass that needs to be accreted, $M_{\mathrm{acc.}}$, to turn give the main-sequence star a final carbon-to-oxygen ratio $\left(\mathrm{C}/\mathrm{O}\right)_f$ we simply solve
-
-% \begin{equation}
-%     \left(\frac{C}{O} \right)_f = \frac{N^*_{C,i} + \Delta N_C}{N^*_{O,i} + \Delta N_O}
-% \end{equation}
-% for $M_{\mathrm{acc.}}$ given that $\Delta N_Q = X^d_Q M_{\mathrm{acc}}/A_Q$ and $X^d_Q$ is the mass fraction of element $Q$ of the donor material. The mass needed is then simply
-% \begin{equation}
-%     M_{\mathrm{acc.}} = \frac{(C/O)_f(X^*_O/ A_O) - (X^*_C / A_C)}{(X^d_C/A_C) - (C/O)_f(X^d_O/A_O)} M_e.
-% \end{equation}
-% Note that while $\left(\mathrm{C}/\mathrm{O}\right)_i$ of both the donor and main-sequence star is not explicitly in this equation, it plays a central role, along with [Fe/H], in determining $X_C$ and $X_O$.
-
-
-% \begin{figure*}
-% \script{make_compare_to_Miszalski2013.py}
-% \centering
-% % \epsscale{1.2}
-% \plotone{figures/needed_mass_vs_CtoO_compare_Misalski2013.pdf}
-% \caption{Comparison of our method to that used by \citet{Miszalski2013}. In both panels we used a final $\left(\mathrm{C}/\mathrm{O}\right)_f = 1.0$ and two initial masses of 0.3\,$M_\odot$ and  0.9\,$M_\odot$. Our method is styled with a solid line, and the \citet{Miszalski2013} method with a dashed line. In the left panel we used [Fe/H] = 0.0, and in the right we used [Fe/H] = -4.0. In all cases, our method is indistinguishable from that of \citet{Miszalski2013} at low metallicities, and shows only slight divergence when considering metallicities near or higher than solar.}
-% \label{fig:compare_to_Misalski2013}
-% \end{figure*}
-
-
-% To test our method as compared to the estimations of \citet{Miszalski2013} we compared the needed mass, $\Delta M$, to reach a main-sequence $\left(\mathrm{C}/\mathrm{O}\right)_f = 1.0$ for a range of donor $\left(\mathrm{C}/\mathrm{O}\right)_{\mathrm{AGB}}$. In Figure \ref{fig:compare_to_Misalski2013} we show this comparison for two different initial main-sequence masses (0.3\,$M_\odot$ and 0.9\,$M_\odot$) and for two metallicities ([Fe/H] = 0, -4). For all combinations of initial mass and metallicity out method of solving the full elemental abundance for the star gives the essentially the same result as that from the \citet{Miszalski2013} method, with only slight divergence when considering metallicities near or higher than solar. For the rest of this section we use our method for further comparisons. 
-
-% \begin{figure}
-% \script{make_compare_FeH.py}
-% \centering
-% % \epsscale{1.2}
-% \plotone{figures/needed_mass_vs_CtoO_compare_FeH.pdf}
-% \caption{Comparison of the needed accreted mass for a range of initial mass and metallicities. The four different metallicities are represented with different line styles, and the different initial masses by different line colors. It can be seen that at lower metalicities, across all initial masses, the amount of needed mass accretion is less than at higher metalicities with the strength of this effect increasing with donor $\left(\mathrm{C}/\mathrm{O}\right)$. }
-% \label{fig:compare_across_FeH}
-% \end{figure}
-
-
-% It has been often thought that it would be easier to form a dwarf carbon star from a more metal-poor star. This follows from the argument that the lower the metallicity, the less the initial number of oxygen atoms, and thus requires less carbon atoms to convert to $\left(\mathrm{C}/\mathrm{O}\right) > 1.0$ even if the donor material is not significantly more than $\left(\mathrm{C}/\mathrm{O}\right) = 1.0$ itself. To investigate we calculated the amount of mass needed to turn a main-sequence star to $\left(\mathrm{C}/\mathrm{O}\right) = 1.0$ for a range of initial masses and metallicities. Figure \ref{fig:compare_across_FeH} shows the result of these comparisons. We do see that a lower metallicity does indeed require less mass to be accreted. However, the effect is relatively small compared to the effect that the initial mass has on the amount of mass needed. 
-
-% This can be understood by the fact that we assume solar ratio scaled abundances, where $\left(\mathrm{C}/\mathrm{O}\right)_i \approxeq 0.59$ is the solar value. This leaves the ratio of oxygen atoms to carbon atoms fixed even as we change the metallicity, although the absolute number for a given amount of mass decreases. The total number of excess carbon atoms that need to be added to the envelope 
-
- % Figure \ref{fig:compare_across_FeH} also shows how the size of the convective envelope affects the needed mass. Equation \ref{eq:envelope_mass} defines the boundary between a fully-convective star and one with a radiative core as 0.35\,$M_\odot$. For a given metallicity and donor $\left(\mathrm{C}/\mathrm{O}\right)$, the maximum absolute mass needed will occur for a star at this boundary.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{singlespace}
-% \input{LC_stats.tex}
-% \end{singlespace}
-
-
-
-
-
-
-% \begin{figure*}
-% \script{make_compare_dM_vs_CtoO.py}
-% \centering
-% % \epsscale{1.2}
-% \plotone{figures/dC_mass_needed_vs_CtoO_FeH-0.pdf}
-% \caption{Caption}
-% \label{fig:compare_across_final_CtoO}
-% \end{figure*}
-
-
-% \begin{figure}
-% \script{make_dM_vs_CtoO_med.py}
-% \centering
-% % \epsscale{1.2}
-% \plotone{figures/dC_median_mass_needed_vs_Mstar_FeH-0.pdf}
-% \caption{Caption}
-% \label{fig:compare_across_M_final_CtoO}
-% \end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion} \label{discussion}
